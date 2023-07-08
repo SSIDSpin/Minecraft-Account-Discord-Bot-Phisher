@@ -23,6 +23,6 @@ A Minecraft phishing Discord bot is a malicious program designed to deceive play
 
 ## **How the logs come through:**   
 
-![How the logs come through](https://cdn.discordapp.com/attachments/1027246555683631195/1126906867134775426/image.png)
+![How the logs come through](https://cdn.discordapp.com/attachments/1015244668163858452/1127203970704744538/image.png)
 
 
