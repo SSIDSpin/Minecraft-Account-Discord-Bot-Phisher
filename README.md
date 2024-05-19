@@ -20,7 +20,7 @@ A Minecraft phishing Discord bot is a malicious program designed to deceive play
 
 ## **How the modal looks when set up properly (Example):**   
 
-![Gets Email+Username](https://cdn.discordapp.com/attachments/1027246555683631195/1126907278080090124/image.png)  
+![Gets Username,Email,Discord +Capes]([https://cdn.discordapp.com/attachments/1027246555683631195/1126907278080090124/image.png](https://cdn.discordapp.com/attachments/1241511780685971566/1241565417382608916/image.png?ex=664aa966&is=664957e6&hm=35766163c057323987898d5a225e71c12ed13a662a9ad5f8e719850dfddd3380&))  
 ![Sends Private Message In Channel Asking For Code](https://cdn.discordapp.com/attachments/1027246555683631195/1126907329145753672/image.png)  
 ![Gets Code](https://cdn.discordapp.com/attachments/1027246555683631195/1126907359529283685/image.png)  
 ![Sends any message after you want](https://cdn.discordapp.com/attachments/1027246555683631195/1126907510423556240/image.png)  
