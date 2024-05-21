@@ -37,6 +37,6 @@ Once the user provides their email and username, the bot sends the email, prompt
 ### CMD Interface
 ![CMD Prompt Interface](https://i.imgur.com/Hp0rAh4.png)
 
-### Victim's Point of View
-(The profile picture of your bot may differ)
+### Victim's Point of View<br>
+(The profile picture of your bot may differ)<br>
 ![Victim's POV](https://i.imgur.com/s91N2fp.png)
