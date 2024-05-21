@@ -31,10 +31,10 @@ Once the user provides their email and username, the bot sends the email, prompt
 
 ## What It Looks Like
 
-### Logs Interface
+### Logs Interface<br>
 ![Logs Interface](https://i.imgur.com/pPeZt8H.png)
 
-### CMD Interface
+### CMD Interface<br>
 ![CMD Prompt Interface](https://i.imgur.com/Hp0rAh4.png)
 
 ### Victim's Point of View<br>
