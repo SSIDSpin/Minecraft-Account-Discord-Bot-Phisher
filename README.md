@@ -33,3 +33,6 @@ Once the user provides their email and username, the bot will send their email w
 ![Logs Interface](https://i.imgur.com/pPeZt8H.png)<br>
 **CMD Interface**<br>
 ![CMD Prompt Interface](https://i.imgur.com/Hp0rAh4.png)<br>
+**Victims Pov** (The pfp of my bot will look different to yours)<br>
+![Victims Pov](https://i.imgur.com/s91N2fp.png)<br>
+
