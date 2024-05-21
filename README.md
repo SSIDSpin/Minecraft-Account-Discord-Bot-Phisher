@@ -30,4 +30,4 @@ Once the user provides their email and username, the bot will send their email w
 
 ## What It Looks Like
 ![Logs Interface](https://i.imgur.com/pPeZt8H.png)
-![CMD Prompt Interface](https://user-images.githubusercontent.com/https://imgur.com/a/OpNX0V9)
+![CMD Prompt Interface](https://i.imgur.com/JohamBS.png)
