@@ -29,5 +29,5 @@ Once the user provides their email and username, the bot will send their email w
     - Use `/webhook` and enter where you want your logs to go.
 
 ## What It Looks Like
-![Logs Interface](https://i.imgur.com/XzQ1Nyo.png)
+![Logs Interface](https://i.imgur.com/pPeZt8H.png)
 ![CMD Prompt Interface](https://user-images.githubusercontent.com/https://imgur.com/a/OpNX0V9)
