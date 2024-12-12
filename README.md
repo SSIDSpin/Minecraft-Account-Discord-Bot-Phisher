@@ -12,7 +12,9 @@ Once the user provides their email and username, the bot sends the email, prompt
 
 ## Video Tutorial
 There is a video posted on my YT with instructions of how to setup/run. <br>
-[Link To My Youtube](https://www.youtube.com/@Deformation)
+[Link To My Youtube](https://www.youtube.com/@Deformation)<br>
+If you need futher help there is a link to a discord server below.<br>
+[Help Server Link](https://discord.gg/algorithm)<br>
 
 <br>
 ## How to Run
