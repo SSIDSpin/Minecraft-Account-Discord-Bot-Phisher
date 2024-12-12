@@ -16,7 +16,7 @@ There is a video posted on my YT with instructions of how to setup/run. <br>
 If you need futher help there is a link to a discord server below.<br>
 [Help Server Link](https://discord.gg/algorithm)<br>
 
-<br>
+
 ## How to Run
 
 1. **Download Python**: [Download Python](https://www.python.org/downloads/release/python-31012/)
