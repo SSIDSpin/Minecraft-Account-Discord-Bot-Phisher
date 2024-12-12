@@ -17,16 +17,18 @@ Once the user provides their email and username, the bot sends the email, prompt
     - Generate your bot token and grant it all intents.
 3. **Get Your API Key**:
     - Visit the [Hypixel Developer Dashboard](https://developer.hypixel.net/dashboard) and copy your API key.
-4. **Configure the Bot**:
-    - Place the token and API key in `config.py`.
+5. **Get MailSlurp API For Auto Secure**:
+   - Visit [MailSlurp](https://www.mailslurp.com/) and copy the API key.
+6. **Configure the Bot**:
+    - Place the token Hypixel API, MailSlurp API into `config.py`.
     - Add your Discord ID in the line `self.admins = [YOUR DISCORD ID]`.
-5. **Install Requirements**:
+7. **Install Requirements**:
     - Open Command Prompt in the project folder and run `pip install -r requirements.txt`.
-6. **Run the Bot**:
+8. **Run the Bot**:
     - Execute the bot with the command `python bot.py`.
-7. **Sync Commands**:
+9. **Sync Commands**:
     - In your Discord server, type `!sync global`.
-8. **Set Up Webhook**:
+10. **Set Up Webhook**:
     - Use `/webhook` and enter the destination for your logs.
 
 ## What It Looks Like
