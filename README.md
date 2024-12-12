@@ -12,7 +12,7 @@ Once the user provides their email and username, the bot sends the email, prompt
 
 ## Video Tutorial
 There should be a video posted on my YT of how to setup/run. <br>
-[Youtube](https://www.youtube.com/@Deformation)
+[Link To My Youtube](https://www.youtube.com/@Deformation)
 
 <br>
 ## How to Run
