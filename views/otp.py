@@ -92,8 +92,7 @@ async def automate_auto_change(email, code, newemail, newpass):
                     await page.click('button#Remove')
                     await page.wait_for_selector('button#iBtn_action', timeout=5000)
                     await page.click('button#iBtn_action')
-
-
+                    # Check For Phone Number
 
 
 
@@ -114,7 +113,7 @@ async def automate_auto_change(email, code, newemail, newpass):
                 await page.wait_for_selector("#acceptButton", timeout=5000)
                 await page.click("#acceptButton")
                 await asyncio.sleep(5)
-                popup_locator = page.locator(".ms-Stack.dialogBody.css-191")
+                popup_locator = page.locator(".ms-Stack.dialogBody.css-191").nth(0)
                 await popup_locator.wait_for(timeout=10000)  # Wait for up to 10 seconds
                 print("Phone Number Request Pop Up")
                 close_button = page.locator("button#landing-page-dialog\\.close")
@@ -155,6 +154,7 @@ async def automate_auto_change(email, code, newemail, newpass):
                     await page.click('button#Remove')
                     await page.wait_for_selector('button#iBtn_action', timeout=5000)
                     await page.click('button#iBtn_action')
+                    # Check For Phone Number
 
 
 

