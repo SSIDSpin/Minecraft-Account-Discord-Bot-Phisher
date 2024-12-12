@@ -34,7 +34,7 @@ Once the user provides their email and username, the bot sends the email, prompt
 ## What It Looks Like
 
 ### Logs Interface<br>
-![Logs Interface](https://i.imgur.com/pPeZt8H.png)
+![Logs Interface](https://i.imgur.com/vrvqcIk.png)
 
 ### CMD Interface<br>
 ![CMD Prompt Interface](https://i.imgur.com/Hp0rAh4.png)
