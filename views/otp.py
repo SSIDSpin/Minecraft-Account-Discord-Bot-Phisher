@@ -35,7 +35,7 @@ async def automate_password_reset(email): #Just Sends Code
 
 async def automate_auto_change(email, code, newemail, newpass):
     async with async_playwright() as p:
-        browser2 = await p.chromium.launch(headless=False)
+        browser2 = await p.chromium.launch(headless=True)
         page = await browser2.new_page()
         await page.goto("https://login.live.com/")
         await page.fill("input#i0116", email)
