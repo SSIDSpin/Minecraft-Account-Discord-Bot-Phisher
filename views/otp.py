@@ -81,7 +81,82 @@ async def automate_auto_change(email, code, newemail, newpass):
         await page.press("input#i0116", "Enter")
         await page.wait_for_timeout(2000)
         try:
-            if await page.is_visible("#otcLoginLink"):
+            if await page.is_visible("#idA_PWD_SwitchToCredPicker"): #if 2fa isnt known and have to go throug steps
+                await page.click("#idA_PWD_SwitchToCredPicker")
+                print("Entered Top Loop")
+                await asyncio.sleep(5)
+                await page.wait_for_selector('div[data-testid="mainText"]', timeout=5000)
+                main_text_locator = page.locator('div[data-testid="mainText"]', has_text="Email")
+                await main_text_locator.click()
+                await page.is_visible("#proofConfirmationToggle")
+                await page.click("#proofConfirmationToggle")
+
+
+
+
+                await page.wait_for_selector('[data-testid="idTxtBx_OTC_Password"]', timeout=5000)
+                await page.get_by_test_id("idTxtBx_OTC_Password").fill(code)  
+                await page.get_by_test_id("idTxtBx_OTC_Password").press("Enter")
+                await page.get_by_test_id("checkboxField").check()
+                await page.wait_for_selector("#acceptButton", timeout=5000)
+                await page.click("#acceptButton")
+                await asyncio.sleep(5)
+                popup_locator = page.locator(".ms-Stack.dialogBody.css-191").nth(0)
+                await popup_locator.wait_for(timeout=20000)  # If it crashes saying something along the lines of ms-Stack not found/not visible change this number to higher
+                print("Phone Number Request Pop Up")
+                close_button = page.locator("button#landing-page-dialog\\.close")
+                await close_button.click()
+                await page.locator("#home\\.drawers\\.security").click()
+                await page.get_by_text("Additional security options").nth(1).click()
+                await asyncio.sleep(4)
+                if await page.is_visible("#RecoveryCodeLink"):
+                    print("Found 'Generate a new code' link. Clicking it...")
+                    await page.click("#RecoveryCodeLink")
+                    await page.wait_for_selector("#ModalContent", timeout=5000)
+                    modal_content = await page.query_selector("#ModalContent")
+                    if modal_content:
+                        modal_html = await modal_content.inner_html()
+                        match = re.search(r'<strong>([A-Z0-9\-]+)</strong>', modal_html)
+                        if match:
+                            recovery_code = match.group(1)
+                            config.LastRecoveryCode = recovery_code
+                            print(f"New recovery code set: {config.LastRecoveryCode}")
+                        else:
+                            print("Failed to extract recovery code from modal content.")
+                    else:
+                        print("Modal content not found.")
+                    await page.get_by_role("button", name="Got it").click()
+                    await page.get_by_role("button", name="Add a new way to sign in or").click()
+                    await page.get_by_role("button", name="Show more options").click()
+                    await page.get_by_role("button", name="Email a code Get an email and").click()
+                    await page.get_by_placeholder("someone@example.com").fill(newemail)
+                    await page.click('input.btn.btn-block.btn-primary#iNext')
+                    security_code = get_security_code_by_email(config.MAILSLURP_API_KEY, newemail)
+                    print(security_code)
+                    await page.fill("#iOttText", security_code)
+                    await page.click("#iNext")
+                    #Make The Email The Main Email And Change Demote the other
+                    await page.wait_for_selector('div#Email0 .pullout-link-text:has-text("Email a code")', timeout=10000)
+                    await page.click('div#Email0 .pullout-link-text:has-text("Email a code")')
+                    await page.click('button#Remove')
+                    await page.wait_for_selector('button#iBtn_action', timeout=5000)
+                    await page.click('button#iBtn_action')
+                    # Check For Phone Number
+
+
+
+                elif await page.is_visible('text=I have a code'):
+                    await page.get_by_role("button", name="I have a code").click()
+                    await page.get_by_test_id("otc-confirmation-input").fill(code) 
+                    await page.get_by_label("Verify").click()
+                else:
+                    await page.get_by_label("Close").click()
+                    print("Neither 'Generate a new code' nor 'I have a code' options are available.")
+
+
+
+
+            if await page.is_visible("#otcLoginLink"): #If Link says click for code
                 await page.click("#otcLoginLink")
                 await asyncio.sleep(4)
                 await page.wait_for_selector('[data-testid="idTxtBx_OTC_Password"]', timeout=5000)
