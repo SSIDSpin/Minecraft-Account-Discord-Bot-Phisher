@@ -48,9 +48,14 @@ async def automate_password_reset(email):  # Just Sends Code
 
         try:
             if await page.is_visible("#otcLoginLink"):
-                await page.click("#otcLoginLink")
-                await asyncio.sleep(4)
-                await browser.close()
+                link_text = await page.inner_text("#otcLoginLink")
+                if re.search(r"\*", link_text):
+                    await browser.close()
+                    send_code(credential_data,email)
+                else:   
+                    await page.click("#otcLoginLink")
+                    await asyncio.sleep(4)
+                    await browser.close()
             else:
                 await page.click("#idA_PWD_SwitchToCredPicker")
                 await browser.close()
