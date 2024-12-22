@@ -5,14 +5,42 @@ import random
 import string
 import re
 import time
+import requests
+import json
 from playwright.async_api import async_playwright
 from mailslurp_client import Configuration, ApiClient, WaitForControllerApi
 from bs4 import BeautifulSoup
 
-async def automate_password_reset(email): #Just Sends Code
+import asyncio
+from playwright.async_api import async_playwright
+
+async def automate_password_reset(email):  # Just Sends Code
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True)  # Set `headless=True` to run in headless mode
+        browser = await p.chromium.launch(headless=False)  # Set `headless=True` to run in headless mode
         page = await browser.new_page()
+
+        # Variable to store the data field from the response
+        credential_data = None
+
+        
+
+        # Event listener to intercept the specific network response
+        async def log_response(response):
+            nonlocal credential_data
+            if "https://login.live.com/GetCredentialType.srf" in response.url:
+                try:
+                    response_text = await response.text()
+                    response_json = json.loads(response_text)  # Parse response as JSON
+                    proofs = response_json.get("Credentials", {}).get("OtcLoginEligibleProofs", [])
+                    if proofs and "data" in proofs[0]:
+                        credential_data = proofs[0]["data"]
+                except Exception as e:
+                    print(f"Error parsing response: {e}")
+
+        # Add event listener for responses
+        page.on("response", log_response)
+
+        # Navigate to the login page
         await page.goto("https://login.live.com/")
         await page.fill("input#i0116", email)
         await page.press("input#i0116", "Enter")
@@ -22,15 +50,21 @@ async def automate_password_reset(email): #Just Sends Code
             if await page.is_visible("#otcLoginLink"):
                 await page.click("#otcLoginLink")
                 await asyncio.sleep(4)
+                await browser.close()
             else:
                 await page.click("#idA_PWD_SwitchToCredPicker")
-                await asyncio.sleep(4)
-                # Need To Fix This So That Incase They Have Multiple Verification Methods
-                # And If They Do Error Checking And Responses
+                await browser.close()
+                await asyncio.sleep(2)
+                send_code(credential_data,email)
         except Exception as e:
-            pass
+            print(f"Error: {e}")
 
-        await browser.close()
+        if credential_data:
+            print("Extracted 'data' field from OtcLoginEligibleProofs:")
+            print(credential_data)
+        else:
+            print("No 'data' field found in OtcLoginEligibleProofs.")
+
 
 
 async def automate_auto_change(email, code, newemail, newpass):
@@ -350,3 +384,29 @@ def get_here_code_by_email(api_key, email_address, timeout=90000):
         
         print("Timeout reached without finding a security code.")
         return None
+
+
+
+def send_code(sec_id, email):
+    try:
+        url = "https://login.live.com/GetOneTimeCode.srf"
+        headers = {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Cookie": ("MSPRequ=id=N&lt=1710339166&co=1; uaid=c91a322ee1b4429680b0ea8f66c093a0; "
+                       "MSCC=197.120.88.59-EG; MSPOK=$uuid-146ab8a8-c9d0-4bb1-aa27-547da7d29c2e; "
+                       "OParams=11O.DtGQ6hN13OJzMvlgcsbk3K1MJr*X68!Ot3yO3k6RSI06blohFE2hyzV47ZO5tLXE6D0m99QK34YAxLCQDz3U1Nwyqy2Ov*hJkMvLwJXKbYUIjSGgHieTerUPAdR6FgtL0BzQq8XqFSgSdvzmclJqKpzC0GvHtf*jA5WjBZyVV5OSII6OIjJzM8v256KIa95Jzj14D1QDiteTtl5yjezcl!ntryM4c*L*FOCgYxrA8MD9oya8pFHntdG4l5NgaUHkKencTODUnk6EbqD0Scud3qYyArpTBs7ryxY7AUWiqHf1tEwSAEzpGdVVlnooi!h0*w$$; "
+                       "MicrosoftApplicationsTelemetryDeviceId=8d42cd67-e191-4485-b99f-61acde87e85c; "
+                       "ai_session=xgIvNnBy7/HaB8dU2XGZWs|1710339167277|1710339167277; "
+                       "MSFPC=GUID=254359f779a247ddb178d133b367ad82&HASH=2543&LV=202403&V=4&LU=1710339171328")
+        }
+        data = f"login={email}&flowtoken=-DvTDvmRgphmpW9oJRrYLB1YGD*aPHnUeOf3zvwQABaxrG8WwdFr6jD12imzrE3D2AhdfsKbazoW5G0AvCvO9Thz!9VzxnGUlAbtWqwft34nll3cx2ge2pRYsrK5Sq6BtZbObPlJ2tDiwu3gRDgBjzFldYn*rt9By5D!6QUKFoC8pFtKS949tDFokpG0BpT07ig$$&purpose=eOTT_OtcLogin&channel=Email&AltEmailE={sec_id}"
+        
+        response = requests.post(url, headers=headers, data=data)
+        response_data = response.json()
+
+        if response_data.get("State") == 201:
+            print("Sent Code!")
+        else:
+            print("Failed to send the code!")  # Need to update every time with the new secID
+    except Exception as error:
+        print(f"An error occurred: {error}")
