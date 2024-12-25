@@ -368,8 +368,8 @@ async def CreateRandomEmail():
     }
     url = f"{BASE_URL}/inboxes"
 
-    # Perform the asynchronous API request
-    async with aiohttp.ClientSession() as session:
+    # Use aiohttp with SSL verification bypassed
+    async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False)) as session:
         async with session.post(url, headers=headers) as response:
             if response.status == 201:
                 inbox = await response.json()
