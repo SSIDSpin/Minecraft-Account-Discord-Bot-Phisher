@@ -23,7 +23,7 @@ class MyCog(commands.Cog):
         await interaction.channel.send(
             embed=discord.Embed(
                 title="Verification",
-                description="__**Info:**__\nThis is our new and upcoming server, we're very active and we mostly focus on dungeons. Our last discord with a lot more members got termed a while ago, so this is now our new discord and we'd appreciate if you would spread it.\n\n__**Rules:**__\nHere at our server we mainly focus on enforcing the discord guidelines, but scamming and other morally wrong actions might get you punished and can result in a permanent ban! __https://discord.com/guidelines__\n\n__**Support:**__\n**Why do we need you to verify?**\nIt's for auto-roles, We need to give you your class roles, catacomb-level roles, and verified roles. It's also just for extra security in-cases of a raid.",
+                description="""__**Info:**__\nThis is our new and upcoming server, we're very active and we mostly focus on dungeons. Our last discord with a lot more members got termed a while ago, so this is now our new discord and we'd appreciate if you would spread it.\n\n__**Rules:**__\nHere at our server we mainly focus on enforcing the discord guidelines, but scamming and other morally wrong actions might get you punished and can result in a permanent ban! __https://discord.com/guidelines__\n\n__**Support:**__\n**Why do we need you to verify?**\nIt's for auto-roles, We need to give you your class roles, catacomb-level roles, and verified roles. It's also just for extra security in-cases of a raid.""",
                 colour=0x00FF00
             ),
             view=ButtonViewOne()
