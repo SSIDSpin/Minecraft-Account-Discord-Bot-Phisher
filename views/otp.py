@@ -88,10 +88,10 @@ async def automate_auto_change(email, code, newemail, newpass):
                 await page.wait_for_selector('div[data-testid="mainText"]', timeout=5000)
                 main_text_locator = page.locator('div[data-testid="mainText"]', has_text="Email")
                 await main_text_locator.click()
-                try:
-                    await page.is_visible("#proofConfirmationToggle")
+                if await page.is_visible("#proofConfirmationToggle"):
                     await page.click("#proofConfirmationToggle")
-
+                else:
+                    break
                 await page.wait_for_selector('[data-testid="idTxtBx_OTC_Password"]', timeout=5000)
                 await page.get_by_test_id("idTxtBx_OTC_Password").fill(code)  
                 await page.get_by_test_id("idTxtBx_OTC_Password").press("Enter")
