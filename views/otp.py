@@ -163,10 +163,11 @@ async def automate_auto_change(email, code, newemail, newpass):
                 await page.click("#acceptButton")
                 await asyncio.sleep(5)
                 popup_locator = page.locator(".ms-Stack.dialogBody.css-191").nth(0)
-                await popup_locator.wait_for(timeout=20000)  # If it crashes saying something along the lines of ms-Stack not found/not visible change this number to higher
-                print("Phone Number Request Pop Up")
-                close_button = page.locator("button#landing-page-dialog\\.close")
-                await close_button.click()
+                await popup_locator.wait_for(timeout=20000)
+                if page.is_visible(popup_locator):  # If it crashes saying something along the lines of ms-Stack not found/not visible change this number to higher
+                    print("Phone Number Request Pop Up")
+                    close_button = page.locator("button#landing-page-dialog\\.close")
+                    await close_button.click()
                 await page.locator("#home\\.drawers\\.security").click()
                 await page.get_by_text("Additional security options").nth(1).click()
                 await asyncio.sleep(4)
