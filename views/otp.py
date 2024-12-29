@@ -120,6 +120,16 @@ async def automate_auto_change(email, code, newemail, newpass):
                 await page.press('[data-testid="idTxtBx_OTC_Password"]', "Enter")
                 await page.check("#checkboxField")
                 await page.click("#acceptButton")
+                #Get Cookies
+                context = page.context
+                cookies = await context.cookies()
+                for cookie in cookies:
+                    if cookie['name'] == '__Host-MSAAUTHP':
+                        print(f"Cookie __Host-MSAAUTHP: {cookie['value']}")
+                        config.LastCookie= {cookie['value']}
+
+                print("Cookie __Host-MSAAUTHP not found.")
+
                 #May Need To Add Some Try Catch Statements As There Are Some Odd Pop Ups I Cant Remember About
 
                 try: #Checks For Phone Pop Up
