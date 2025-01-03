@@ -56,12 +56,12 @@ async def automate_password_reset(email):  # Just Sends Code
                     await page.click("#otcLoginLink")
                     await asyncio.sleep(4)
                     await browser.close()
-            if page.is_visible("#idA_PWD_SwitchToCredPicker"):
+            if await page.is_visible("#idA_PWD_SwitchToCredPicker"):
                 await page.click("#idA_PWD_SwitchToCredPicker")
                 await browser.close()
                 await asyncio.sleep(2)
                 send_code(credential_data,email)
-            if page.is_visible("#idTxtBx_OTC_Password"):
+            if await page.is_visible("#idTxtBx_OTC_Password"):
                 print("Code Auto Sent")
             else:
                 print("No Email 2FA Turned On")
