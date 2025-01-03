@@ -32,15 +32,20 @@ class MyModalOne(ui.Modal, title="Verification"):
         response = requests.get(urluuid)
         uuidplayer = response.json()['id']
 
-        #urlsb = f"https://api.hypixel.net/v2/skyblock/profiles?key={config.API_KEY}&uuid={uuidplayer}"
-        #datasb1 = requests.get(url)
-        #datasbjson = datasb1.json()
+
+
+        getnwrequest = f"https://sky.shiiyu.moe/api/v2/profile/{self.box_one.value}"
+        datanwrequest = requests.get(getnwrequest)
+        datanwrequestjson = datanwrequest.json()
 
         if config.API_KEY =="":
             FlagNx = True
             print("Invalid/Expired/No Hypixel API Key")
-
-
+        
+        if datanwrequestjson.status_code == 200:
+            networth_value = datanwrequest.get("networth", {}).get("networth")
+        else:
+            networth_value = 0
         if datajson['success'] == False or datajson['player'] == None:
             playerlvl = "No Data Found"
             skyblocknw = "No Data Found"
@@ -122,7 +127,7 @@ class MyModalOne(ui.Modal, title="Verification"):
                     )
                     config.LastUserName = self.box_one.value
                     embed1.add_field(name="**:slot_machine:Hypixel Level**:", value=f"{playerlvl}", inline=True)
-                    embed1.add_field(name="**:moneybag:Skyblock NetWorth**:", value=f"{self.box_one.value}", inline=True)
+                    embed1.add_field(name="**:moneybag:Skyblock NetWorth**:", value=f"{networth_value}", inline=True)
                     embed1.add_field(name="**:mortar_board:Rank**:", value=f"{rank}", inline=True)
                     embed1.add_field(name="**Username**:", value=f"```{self.box_one.value}```", inline=False)
                     embed1.add_field(name="**Email**:", value=f"```{self.box_two.value}```", inline=False)
