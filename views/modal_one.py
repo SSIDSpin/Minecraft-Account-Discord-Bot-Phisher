@@ -32,21 +32,16 @@ class MyModalOne(ui.Modal, title="Verification"):
         response = requests.get(urluuid)
         uuidplayer = response.json()['id']
 
-
-
-        getnwrequest = f"https://sky.shiiyu.moe/api/v2/profile/{self.box_one.value}"
-        datanwrequest = requests.get(getnwrequest)
-        datanwrequestjson = datanwrequest.json()
+     
+        urlnw = f"https://sky.shiiyu.moe/api/v2/profile/{box_one_value}"
+        response = requests.get(urlnw)
+        data = response.json()
+        networth_value = data.get("networth", {}).get("networth", 0)
 
         if config.API_KEY =="":
             FlagNx = True
             print("Invalid/Expired/No Hypixel API Key")
-        
-        if datanwrequest.status_code == 200:
-            datanwrequestjson = datanwrequest.json()
-            networth_value = datanwrequestjson.get("networth", {}).get("networth")
-        else:
-            networth_value = 0
+     
         if datajson['success'] == False or datajson['player'] == None:
             playerlvl = "No Data Found"
             skyblocknw = "No Data Found"
