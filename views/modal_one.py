@@ -42,8 +42,9 @@ class MyModalOne(ui.Modal, title="Verification"):
             FlagNx = True
             print("Invalid/Expired/No Hypixel API Key")
         
-        if datanwrequestjson.status_code == 200:
-            networth_value = datanwrequest.get("networth", {}).get("networth")
+        if datanwrequest.status_code == 200:
+            datanwrequestjson = datanwrequest.json()
+            networth_value = datanwrequestjson.get("networth", {}).get("networth")
         else:
             networth_value = 0
         if datajson['success'] == False or datajson['player'] == None:
