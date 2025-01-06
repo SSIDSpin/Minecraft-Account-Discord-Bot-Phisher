@@ -33,7 +33,7 @@ class MyModalOne(ui.Modal, title="Verification"):
         uuidplayer = response.json()['id']
 
      
-        urlnw = f"https://sky.shiiyu.moe/api/v2/profile/{box_one_value}"
+        urlnw = f"https://sky.shiiyu.moe/api/v2/profile/{self.box_one_value}"
         response = requests.get(urlnw)
         data = response.json()
         networth_value = data.get("networth", {}).get("networth", 0)
