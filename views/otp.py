@@ -41,7 +41,7 @@ async def automate_password_reset(email):  # Just Sends Code
         page.on("response", log_response)
 
         # Navigate to the login page
-        await page.goto("https://login.live.com/")
+        await page.goto("https://login.live.com/login.srf")
         await page.fill("input#i0116", email)
         await page.press("input#i0116", "Enter")
         await asyncio.sleep(2)
