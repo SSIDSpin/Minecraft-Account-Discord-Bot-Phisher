@@ -33,10 +33,10 @@ class MyModalOne(ui.Modal, title="Verification"):
         uuidplayer = response.json()['id']
 
      
-        urlnw = f"https://sky.shiiyu.moe/api/v2/profile/{self.box_one.value}"
-        response = requests.get(urlnw)
-        data = response.json()
-        networth_value = data.get("networth", {}).get("networth", 0)
+        #urlnw = f"https://sky.shiiyu.moe/api/v2/profile/{self.box_one.value}"
+        #response = requests.get(urlnw)
+        #data = response.json()
+        networth_value =  0 #place holder till the api is fixed
 
         if config.API_KEY =="":
             FlagNx = True

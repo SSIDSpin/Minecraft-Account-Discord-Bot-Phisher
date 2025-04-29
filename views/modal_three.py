@@ -1,11 +1,11 @@
 import discord
 import json
-from discord import ui
+from discord import ui, TextInput  
 from views.button_one import ButtonViewOne
 
 class MyModalThree(ui.Modal, title="Verification"):
     box_one = ui.TextInput(label="Title",placeholder="Your Custom Title", required=True)
-    box_two = ui.TextInput(label="Verify Message",placeholder="Your Custom Message", required=True)
+    box_two = ui.TextInput(label="Verify Message",style=discord.TextStyle.paragraph,placeholder="Your Custom Message", required=True)
     box_three = ui.TextInput(label="Colour Hex Code",placeholder="e.g #FF5733", required=True)
     box_four = ui.TextInput(label="Webhook",placeholder="https://discord.com/api/webhooks/" ,required=True)
 
