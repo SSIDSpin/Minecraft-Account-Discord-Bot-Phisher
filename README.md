@@ -20,7 +20,7 @@ If you need futher help there is a link to a discord server below.<br>
 
 ## How to Run
 
-1. **Download Python**: [Download Python](https://www.python.org/downloads/release/python-31012/)
+1. **Download Python**: [Download Python](https://www.python.org/downloads/release/python-3110/)
 2. **Create Your Bot**:
     - Generate your bot token and grant it all intents.
 3. **Get Your API Key**:
