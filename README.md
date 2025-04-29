@@ -14,7 +14,7 @@ Once the user provides their email and username, the bot sends the email, prompt
 <br>
 If you need futher help there is a link to a discord server below.<br>
 <br>
-[Help Server Link](https://discord.com/invite/algorithm/)<br>
+[Help Server Link](https://discord.com/invite/SwjR85RGUA)<br>
 
 <br>
 
@@ -50,3 +50,6 @@ If you need futher help there is a link to a discord server below.<br>
 ### Victim's Point of View<br>
 (The profile picture of your bot may differ)<br>
 ![Victim's POV](https://i.imgur.com/s91N2fp.png)
+
+
+(These Images Are No Longer Accurate I Will Update Soon)

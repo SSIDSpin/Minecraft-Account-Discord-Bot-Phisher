@@ -100,6 +100,11 @@ async def automate_auto_change(email, code, newemail, newpass):  # Continue Afte
             await page.get_by_role("textbox", name=f"Enter code digit {i}").fill(digit)
 
         await page.keyboard.press("Enter")
+        # Navigate to the login page
+        await page.goto("https://login.live.com/login.srf")
+        await page.fill("input#i0116", email)
+        await page.press("input#i0116", "Enter")
+        await asyncio.sleep(2)
 
         try:
             ok_button = await page.wait_for_selector(
