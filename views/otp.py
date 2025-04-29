@@ -64,8 +64,8 @@ async def automate_password_reset(email):  # Just Sends Code
     while True:
         try:
             await page.goto("https://login.live.com")
-            await page.wait_for_selector('input[type="email"]', timeout=3000)
-            break  # Element found, exit loop
+            await page.get_by_role("textbox", name="Email or phone number").wait_for(timeout=1000)
+            break
         except Exception:
             print("Textbox not found, refreshing...")
             await page.reload()
@@ -77,12 +77,11 @@ async def automate_password_reset(email):  # Just Sends Code
     if credential_data:
         print(f"Code sent to: {credential_data}")
         send_code(credential_data, email)
-        button = await page.query_selector('button[aria-label="Other ways to sign in"]')
-        if button:
-            await button.click()
-            await page.locator('label:has-text("Send a code")').click()
+        try:
+            await page.get_by_role("button", name="Other ways to sign in").click()
+            await page.get_by_role("button", name=r"Send a code").click()
             await page.get_by_role("button", name="Already received a code?").click() 
-        else:
+        except:
             await page.get_by_test_id("primaryButton").click()
     else:
         print("No 2FA Email")
