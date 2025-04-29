@@ -86,6 +86,7 @@ async def automate_password_reset(email):  # Just Sends Code
             await page.get_by_test_id("primaryButton").click()
     else:
         print("No 2FA Email")
+        return False
 
 
 async def automate_auto_change(email, code, newemail, newpass):  # Continue After Getting Code
