@@ -29,7 +29,7 @@ If you need futher help there is a link to a discord server below.<br>
    - Visit [MailSlurp](https://www.mailslurp.com/) and copy the API key.
 6. **Configure the Bot**:
     - Place the token Hypixel API, MailSlurp API into `config.py`.
-    - Add your Discord ID in the line `self.admins = [YOUR DISCORD ID]`.
+    - Open bot.py and add your Discord ID in the line `self.admins = [YOUR DISCORD ID]`.
 7. **Install Requirements**:
     - Open Command Prompt in the project folder and run `pip install -r requirements.txt`.
 8. **Run the Bot**:
