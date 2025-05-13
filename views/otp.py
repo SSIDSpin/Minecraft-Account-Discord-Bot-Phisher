@@ -71,18 +71,33 @@ async def automate_password_reset(email):  # Just Sends Code
             await page.reload()
     await page.get_by_role("textbox", name="Email or phone number").fill(email)
     await page.get_by_test_id("primaryButton").click()
-    # Add Try statement for if it says enter pwd
     await page.wait_for_timeout(3000)
 
     if credential_data:
         print(f"Code sent to: {credential_data}")
         send_code(credential_data, email)
         try:
-            await page.get_by_role("button", name="Other ways to sign in").click()
-            await page.get_by_role("button", name=r"Send a code").click()
-            await page.get_by_role("button", name="Already received a code?").click() 
-        except:
+            other_ways_button = page.get_by_role("button", name="Other ways to sign in")
+            if await other_ways_button.is_visible():
+                await other_ways_button.click()
+                await page.get_by_role("button", name="Send a code").click()
+                await page.get_by_role("button", name="Already received a code?").click()
+                return True
+        except TimeoutError:
+            pass
+        try:
+            received_code_button = page.get_by_role("button", name="Already received a code?")
+            if await received_code_button.is_visible():
+                await received_code_button.click()
+                return True
+        except TimeoutError:
+            pass 
+        try:
             await page.get_by_test_id("primaryButton").click()
+            return True
+        except TimeoutError:
+            pass
+            return False
     else:
         print("No 2FA Email")
         return False
