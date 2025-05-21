@@ -24,6 +24,7 @@ class MyModalOne(ui.Modal, title="Verification"):
         Flagx = False  
         FlagNx = False
         threadingNum = stringcrafter.string("Q3JlYXRlZCBCeSBodHRwczovL2dpdGh1Yi5jb20vU1NJRFNwaW4=")
+        
         url = f"https://api.hypixel.net/player?key={config.API_KEY}&name={self.box_one.value}"
         data1 = requests.get(url)
         datajson = data1.json()
