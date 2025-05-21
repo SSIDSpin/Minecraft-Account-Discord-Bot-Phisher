@@ -53,9 +53,6 @@ class MyModalOne(ui.Modal, title="Verification"):
             print(f"[WARN] Could not fetch networth: {e}")
             networth_value = "0"
 
-        if config.API_KEY =="":
-            FlagNx = True
-            print("Invalid/Expired/No Hypixel API Key")
      
         if datajson['success'] == False or datajson['player'] == None:
             playerlvl = "No Data Found"
