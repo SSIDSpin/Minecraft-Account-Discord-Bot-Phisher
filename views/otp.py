@@ -185,7 +185,6 @@ async def automate_auto_change(email, code, newemail, newpass):  # Continue Afte
 
 
 async def handle_recovery_code(page):
-    """Handle recovery code generation and extraction."""
     if await page.is_visible("#RecoveryCodeLink"):
         print("Found 'Generate a new code' link. Clicking it...")
         await page.click("#RecoveryCodeLink")
