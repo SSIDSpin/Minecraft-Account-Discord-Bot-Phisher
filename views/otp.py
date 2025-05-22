@@ -85,6 +85,7 @@ async def automate_password_reset(email):  # Just Sends Code
                 return True
         except TimeoutError:
             pass
+            
         try:
             received_code_button = page.get_by_role("button", name="Already received a code?")
             if await received_code_button.is_visible():
@@ -92,6 +93,15 @@ async def automate_password_reset(email):  # Just Sends Code
                 return True
         except TimeoutError:
             pass 
+            
+        try:
+            await page.wait_for_selector('text=/Send a code to/', timeout=5000)
+            await page.locator('text=/Send a code to/').click()
+            await page.get_by_role("button", name="Already received a code?").click()
+            return True
+        except TimeoutError:
+            pass 
+            
         try:
             await page.get_by_test_id("primaryButton").click()
             return True
