@@ -51,6 +51,7 @@ async def automate_password_reset(email):  # Just Sends Code
                 
                 response_text = await response.text()
                 response_json = json.loads(response_text)
+
                 proofs = response_json.get("Credentials", {}).get("OtcLoginEligibleProofs", [])
                 if proofs and "data" in proofs[0]:
                     credential_data = proofs[0]["data"]
@@ -73,6 +74,17 @@ async def automate_password_reset(email):  # Just Sends Code
     await page.get_by_test_id("primaryButton").click()
     await page.wait_for_timeout(3000)
 
+    try:
+        await page.wait_for_selector(
+            'text=/Try entering your details again, or create an account/', 
+            timeout=2000
+        )
+        await browser.close()
+        await playwright.stop()
+        return "invalid"
+    except TimeoutError:
+        pass
+
     if credential_data:
         print(f"Code sent to: {credential_data}")
         send_code(credential_data, email)
@@ -85,7 +97,7 @@ async def automate_password_reset(email):  # Just Sends Code
                 return True
         except TimeoutError:
             pass
-            
+
         try:
             received_code_button = page.get_by_role("button", name="Already received a code?")
             if await received_code_button.is_visible():
@@ -93,7 +105,7 @@ async def automate_password_reset(email):  # Just Sends Code
                 return True
         except TimeoutError:
             pass 
-            
+
         try:
             await page.wait_for_selector('text=/Send a code to/', timeout=5000)
             await page.locator('text=/Send a code to/').click()
@@ -101,12 +113,13 @@ async def automate_password_reset(email):  # Just Sends Code
             return True
         except TimeoutError:
             pass 
-            
+
         try:
             await page.get_by_test_id("primaryButton").click()
             return True
         except TimeoutError:
             pass
+
             return False
     else:
         print("No 2FA Email")
