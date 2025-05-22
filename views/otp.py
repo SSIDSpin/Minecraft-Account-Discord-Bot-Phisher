@@ -77,12 +77,11 @@ async def automate_password_reset(email):  # Just Sends Code
     error_banner = await page.query_selector('text=/Try entering your details again, or create an account/')
 
     if error_banner:
-    # That banner is present → invalid account
         await browser.close()
         await playwright.stop()
+        print("Invalid Email")
         return "invalid"
     else:
-
         if credential_data:
             print(f"Code sent to: {credential_data}")
             send_code(credential_data, email)
@@ -105,9 +104,10 @@ async def automate_password_reset(email):  # Just Sends Code
                 pass 
 
             try:
-                await page.wait_for_selector('text=/Send a code to/', timeout=5000)
-                await page.locator('text=/Send a code to/').click()
-                await page.get_by_role("button", name="Already received a code?").click()
+                send_code_button = page.locator('text=/Send a code to/')
+                if await send_code_button.is_visible():
+                    await send_code_button.click()
+                    await page.get_by_role("button", name="Already received a code?").click()
                 return True
             except TimeoutError:
                 pass 
