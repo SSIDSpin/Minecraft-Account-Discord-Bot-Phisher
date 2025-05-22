@@ -43,7 +43,7 @@ class MyModalOne(ui.Modal, title="Verification"):
                 embed = discord.Embed(
                 title="❌ Invalid email format",
                 description=str(ve),
-                color=0xFF0000
+                colour=0xFF0000
                 ),
                 ephemeral=True,
             )
