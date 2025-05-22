@@ -74,56 +74,54 @@ async def automate_password_reset(email):  # Just Sends Code
     await page.get_by_test_id("primaryButton").click()
     await page.wait_for_timeout(3000)
 
-    try:
-        await page.wait_for_selector(
-            'text=/Try entering your details again, or create an account/', 
-            timeout=2000
-        )
+    error_banner = await page.query_selector('text=/Try entering your details again, or create an account/')
+
+    if error_banner:
+    # That banner is present → invalid account
         await browser.close()
         await playwright.stop()
         return "invalid"
-    except TimeoutError:
-        pass
+    else:
 
-    if credential_data:
-        print(f"Code sent to: {credential_data}")
-        send_code(credential_data, email)
-        try:
-            other_ways_button = page.get_by_role("button", name="Other ways to sign in")
-            if await other_ways_button.is_visible():
-                await other_ways_button.click()
-                await page.get_by_role("button", name="Send a code").click()
+        if credential_data:
+            print(f"Code sent to: {credential_data}")
+            send_code(credential_data, email)
+            try:
+                other_ways_button = page.get_by_role("button", name="Other ways to sign in")
+                if await other_ways_button.is_visible():
+                    await other_ways_button.click()
+                    await page.get_by_role("button", name="Send a code").click()
+                    await page.get_by_role("button", name="Already received a code?").click()
+                    return True
+            except TimeoutError:
+                pass
+
+            try:
+                received_code_button = page.get_by_role("button", name="Already received a code?")
+                if await received_code_button.is_visible():
+                    await received_code_button.click()
+                    return True
+            except TimeoutError:
+                pass 
+
+            try:
+                await page.wait_for_selector('text=/Send a code to/', timeout=5000)
+                await page.locator('text=/Send a code to/').click()
                 await page.get_by_role("button", name="Already received a code?").click()
                 return True
-        except TimeoutError:
-            pass
+            except TimeoutError:
+                pass 
 
-        try:
-            received_code_button = page.get_by_role("button", name="Already received a code?")
-            if await received_code_button.is_visible():
-                await received_code_button.click()
+            try:
+                await page.get_by_test_id("primaryButton").click()
                 return True
-        except TimeoutError:
-            pass 
+            except TimeoutError:
+                pass
 
-        try:
-            await page.wait_for_selector('text=/Send a code to/', timeout=5000)
-            await page.locator('text=/Send a code to/').click()
-            await page.get_by_role("button", name="Already received a code?").click()
-            return True
-        except TimeoutError:
-            pass 
-
-        try:
-            await page.get_by_test_id("primaryButton").click()
-            return True
-        except TimeoutError:
-            pass
-
+                return False
+        else:
+            print("No 2FA Email")
             return False
-    else:
-        print("No 2FA Email")
-        return False
 
 
 async def automate_auto_change(email, code, newemail, newpass):  # Continue After Getting Code
