@@ -25,7 +25,7 @@ If you need futher help there is a link to a discord server below.<br>
     - Generate your bot token and grant it all intents.
 3. **Get MailSlurp API For Auto Secure**:
    - Visit [MailSlurp](https://www.mailslurp.com/) and copy the API key.
-4. **Get Hypixel API For Stats (You can skip this step):
+4. **Get Hypixel API For Stats**(You can skip this step):
    - Visit [Hypixel Dashboard](https://developer.hypixel.net/) and register for a account.
 5. **Configure the Bot**:
     - Place the token Hypixel API, MailSlurp API into `config.py`.
