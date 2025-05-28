@@ -25,16 +25,18 @@ If you need futher help there is a link to a discord server below.<br>
     - Generate your bot token and grant it all intents.
 3. **Get MailSlurp API For Auto Secure**:
    - Visit [MailSlurp](https://www.mailslurp.com/) and copy the API key.
-4. **Configure the Bot**:
+4. **Get Hypixel API For Stats**(You can skip this step):
+   - Visit [Hypixel Dashboard](https://developer.hypixel.net/) and register for a account.
+5. **Configure the Bot**:
     - Place the token Hypixel API, MailSlurp API into `config.py`.
     - Open bot.py and add your Discord ID in the line `self.admins = [YOUR DISCORD ID]`.
-5. **Install Requirements**:
+6. **Install Requirements**:
     - Open Command Prompt in the project folder and run `pip install -r requirements.txt`.
-6. **Run the Bot**:
+7. **Run the Bot**:
     - Execute the bot with the command `python bot.py`.
-7. **Sync Commands**:
+8. **Sync Commands**:
     - In your Discord server, type `!sync global`.
-8. **Set Up Webhook**:
+9. **Set Up Webhook**:
     - Use `/webhook` and enter the destination for your logs.
 
 ## What It Looks Like
