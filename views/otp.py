@@ -8,6 +8,7 @@ import time
 import requests
 import json
 from playwright.async_api import async_playwright
+from playwright.async_api import TimeoutError as PlaywrightTimeoutError
 from mailslurp_client import Configuration, ApiClient, WaitForControllerApi
 from bs4 import BeautifulSoup
 
@@ -20,6 +21,7 @@ credential_data = None
 
 async def automate_password_reset(email):  # Just Sends Code
     global browser, page, playwright, credential_data
+    config.AUTHVALUE = ""
 
     playwright = await async_playwright().start()
     browser = await playwright.chromium.launch(headless=False)
@@ -95,12 +97,23 @@ async def automate_password_reset(email):  # Just Sends Code
         try:
             await page.get_by_test_id("primaryButton").click()
             return True
+            
         except TimeoutError:
             pass
             return False
     else:
-        print("No 2FA Email")
-        return False
+        try: 
+            await page.wait_for_selector('[data-testid="displaySign"]', timeout=3000)
+            element = page.get_by_test_id("displaySign")
+            authvalue = await element.text_content()
+            config.AUTHVALUE = authvalue
+    
+            print(f"2FA Auth Code Retrieved: {authvalue}")
+            return None
+        except PlaywrightTimeoutError:
+            print("No 2FA Email")
+            pass
+            return False
 
 
 async def automate_auto_change(email, code, newemail, newpass):  # Continue After Getting Code
@@ -111,11 +124,12 @@ async def automate_auto_change(email, code, newemail, newpass):  # Continue Afte
         return
 
     try:
-        for i, digit in enumerate(code, start=1):
-            await page.get_by_role("textbox", name=f"Enter code digit {i}").fill(digit)
+        if config.AUTHVALUE == "" or code is not None:
+            for i, digit in enumerate(code, start=1):
+                await page.get_by_role("textbox", name=f"Enter code digit {i}").fill(digit)
 
-        await page.keyboard.press("Enter")
-        await asyncio.sleep(2)
+            await page.keyboard.press("Enter")
+            await asyncio.sleep(2)
 
         try:
             ok_button = await page.wait_for_selector(
@@ -127,7 +141,7 @@ async def automate_auto_change(email, code, newemail, newpass):  # Continue Afte
 
         ok_button = await page.query_selector("button[name='OK']")
         if ok_button:
-                await ok_button.click()
+            await ok_button.click()
         secondary_button = await page.query_selector("[data-testid='primaryButton']")
         if secondary_button:
             await secondary_button.click()

